@@ -12,7 +12,7 @@ source:
   sha256: 87ddf5f3aa5ecfd8bb4fee892ec3c12e475578b38885fbeb031b0b4fbd0e45c9
 
 build:
-  number: 1
+  number: 0
   # NVPL targets NVIDIA Grace (linux-aarch64/sbsa) only
   skip: true  # [not (linux and aarch64)]
   script:
@@ -50,15 +50,15 @@ outputs:
     test:
       files:
         - test
-      requires:   # [build_platform == target_platform]
-        - {{ compiler("c") }}  # [build_platform == target_platform]
-        - {{ compiler("cxx") }}  # [build_platform == target_platform]
-        - {{ stdlib("c") }}  # [build_platform == target_platform]
-        - cmake   # [build_platform == target_platform]
-        - ninja-base  # [build_platform == target_platform]
+      requires:
+        - {{ compiler("c") }}
+        - {{ compiler("cxx") }}
+        - {{ stdlib("c") }}
+        - cmake
+        - ninja-base
       commands:
-        - cmake ${CMAKE_ARGS} -GNinja test  # [build_platform == target_platform]
-        - cmake --build .  # [build_platform == target_platform]
+        - cmake ${CMAKE_ARGS} -GNinja test
+        - cmake --build .
         - test -f $PREFIX/include/nvpl_fftw.h
         - test -d $PREFIX/include/nvpl_compat
         - test -f $PREFIX/lib/cmake/nvpl_fft/nvpl_fft-config.cmake
